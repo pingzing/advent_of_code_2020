@@ -25,8 +25,7 @@ fn part_one() {
 }
 
 fn part_two() {
-    let entries = get_password_entries();
-    let entries_len = entries.iter().len();    
+    let entries = get_password_entries();    
 
     let valid_entries: Vec::<PasswordAndRule> = entries.into_iter().filter(is_valid_part_two).collect();
     println!("PART TWO: Total valid entries: {}", valid_entries.len());
