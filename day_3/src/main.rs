@@ -13,8 +13,7 @@ fn main() {
     let run_1 = toboggan(1, 1);
     let run_2 = toboggan(3, 1);
     let run_3 = toboggan(5, 1);
-    let run_4 = toboggan(7, 1);
-    println!("Last run!");
+    let run_4 = toboggan(7, 1);    
     let run_5 = toboggan(1, 2);
     println!("PART TWO: Hit multiplied together {} trees.", run_1 * run_2 * run_3 * run_4 * run_5);
 }
@@ -26,7 +25,7 @@ fn toboggan(right_movement: u32, down_movement: u32) -> u32 {
     let mut trees_hit = 0u32;
     let mut column_counter = 0u32;
     let mut line_num = 0;
-    
+
     while line_num < num_lines {            
         let column_index = column_counter % line_width;
         let i = (line_width * line_num) + column_index;        
