@@ -16,7 +16,10 @@ fn main() {
     );
 
     let occupied_count_mk_2 = count_stable_occupieds(ferry_map.clone(), false);
-    println!("PART TWO: Once stablizied, {} seats using line-of-sight are occupied.", occupied_count_mk_2);
+    println!(
+        "PART TWO: Once stablizied, {} seats using line-of-sight are occupied.",
+        occupied_count_mk_2
+    );
 }
 
 fn parse_file() -> FerryMap {
@@ -33,12 +36,11 @@ fn parse_file() -> FerryMap {
 fn count_stable_occupieds(map: FerryMap, is_part_one: bool) -> u32 {
     let mut previous_map = map;
     loop {
-        let new_map = 
-            if is_part_one {
-                apply_rules_part_one(&previous_map)
-            } else {
-                apply_rules_part_two(&previous_map)
-            };
+        let new_map = if is_part_one {
+            apply_rules_part_one(&previous_map)
+        } else {
+            apply_rules_part_two(&previous_map)
+        };
 
         if ferry_maps_equal(&previous_map, &new_map) {
             // we're done! count up and return
