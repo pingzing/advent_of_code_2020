@@ -1,3 +1,5 @@
+#![allow(clippy::clippy::ptr_arg, clippy::clippy::needless_range_loop)]
+
 use std::cmp;
 use std::fmt::{self, Display};
 use std::fs::File;
@@ -15,7 +17,7 @@ fn main() {
         occupied_count
     );
 
-    let occupied_count_mk_2 = count_stable_occupieds(ferry_map.clone(), false);
+    let occupied_count_mk_2 = count_stable_occupieds(ferry_map, false);
     println!(
         "PART TWO: Once stablizied, {} seats using line-of-sight are occupied.",
         occupied_count_mk_2
@@ -24,13 +26,13 @@ fn main() {
 
 fn parse_file() -> FerryMap {
     let file = File::open(PATH).unwrap();
-    return io::BufReader::new(file)
+    io::BufReader::new(file)
         .lines()
         .map(|x| {
             let string = x.unwrap();
             string.chars().map(|y| y.into()).collect()
         })
-        .collect::<FerryMap>();
+        .collect::<FerryMap>()
 }
 
 fn count_stable_occupieds(map: FerryMap, is_part_one: bool) -> u32 {
@@ -47,10 +49,7 @@ fn count_stable_occupieds(map: FerryMap, is_part_one: bool) -> u32 {
             return new_map
                 .iter()
                 .flatten()
-                .filter(|x| match **x {
-                    SpotState::Occupied => true,
-                    _ => false,
-                })
+                .filter(|x| matches!(**x, SpotState::Occupied))
                 .count() as u32;
         }
 
@@ -90,7 +89,7 @@ fn apply_rules_part_one(map: &FerryMap) -> FerryMap {
         }
     }
 
-    return new_map;
+    new_map
 }
 
 fn get_direct_adjacents(row: usize, col: usize, row_len: usize, map: &FerryMap) -> Vec<&SpotState> {
@@ -133,7 +132,7 @@ fn get_direct_adjacents(row: usize, col: usize, row_len: usize, map: &FerryMap) 
         }
     }
 
-    return adjacents;
+    adjacents
 }
 
 fn apply_rules_part_two(map: &FerryMap) -> FerryMap {
@@ -168,7 +167,7 @@ fn apply_rules_part_two(map: &FerryMap) -> FerryMap {
         }
     }
 
-    return new_map;
+    new_map
 }
 
 fn get_line_of_sight_adjacents(
@@ -250,14 +249,12 @@ fn get_line_of_sight_adjacents(
     // Down-left
     let max_dl_offset = cmp::min(col_len - row - 1, col);
     if max_dl_offset > 0 {
-        if max_dl_offset > 0 {
-            for offset in 1..=max_dl_offset {
-                match map[row + offset][col - offset] {
-                    SpotState::Floor => continue,
-                    SpotState::Occupied | SpotState::Empty => {
-                        adjacents.push(&map[row + offset][col - offset]);
-                        break;
-                    }
+        for offset in 1..=max_dl_offset {
+            match map[row + offset][col - offset] {
+                SpotState::Floor => continue,
+                SpotState::Occupied | SpotState::Empty => {
+                    adjacents.push(&map[row + offset][col - offset]);
+                    break;
                 }
             }
         }
@@ -290,7 +287,7 @@ fn get_line_of_sight_adjacents(
         }
     }
 
-    return adjacents;
+    adjacents
 }
 
 fn ferry_maps_equal(map_a: &FerryMap, map_b: &FerryMap) -> bool {
@@ -310,7 +307,7 @@ fn ferry_maps_equal(map_a: &FerryMap, map_b: &FerryMap) -> bool {
         }
     }
 
-    return true;
+    true
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
