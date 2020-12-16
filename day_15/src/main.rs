@@ -6,7 +6,7 @@ fn main() {
     let num = get_nth_number(2020);
     println!("PART ONE: {}", num);
 
-    let bignum = get_nth_number(30000000);
+    let bignum = get_nth_number(30_000_000);
     println!("PART TWO: {}", bignum);
 }
 
@@ -30,6 +30,6 @@ fn get_nth_number(n: u32) -> u32 {
         last_spoken_tracker.insert(prev_spoken, turn as usize - 1);
         prev_spoken = cur;
     }
-    
+
     prev_spoken
 }
