@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Launch",
-            "program": "${workspaceFolder}/day_16/target/debug/day_16.exe", // to be modified for whatever executable I need ATM
+            "program": "${workspaceFolder}/day_17/target/debug/day_17.exe", // to be modified for whatever executable I need ATM
             "args": [],
             "cwd": "${workspaceFolder}",
             "sourceLanguages": ["rust"]

@@ -166,9 +166,9 @@ fn parse_inputs() -> (Vec<Rule>, Ticket, Vec<Ticket>) {
             let line = x.unwrap();
             let caps = RULE_REGEX.captures(&line).unwrap();
             let name = caps.get(1).unwrap().as_str().to_string();
-            let range_1: RangeInclusive<u32> = caps.get(2).unwrap().as_str().parse().unwrap()
+            let range_1 = caps.get(2).unwrap().as_str().parse().unwrap()
                 ..=caps.get(3).unwrap().as_str().parse().unwrap();
-            let range_2: RangeInclusive<u32> = caps.get(4).unwrap().as_str().parse().unwrap()
+            let range_2 = caps.get(4).unwrap().as_str().parse().unwrap()
                 ..=caps.get(5).unwrap().as_str().parse().unwrap();
             Rule {
                 name,

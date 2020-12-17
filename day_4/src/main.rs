@@ -86,36 +86,25 @@ fn validate_document(document: &HashMap<String, String>, strict: bool) -> bool {
         return existence;
     }
 
-    let byr_valid = match document["byr"].parse().unwrap_or(-1) {
-        1920..=2002 => true,
-        _ => false,
-    };
-    let iyr_valid = match document["iyr"].parse().unwrap_or(-1) {
-        2010..=2020 => true,
-        _ => false,
-    };
-    let eyr_valid = match document["eyr"].parse().unwrap_or(-1) {
-        2020..=2030 => true,
-        _ => false,
-    };
+    let byr_valid = matches!(document["byr"].parse().unwrap_or(-1), 1920..=2002);
+    let iyr_valid = matches!(document["iyr"].parse().unwrap_or(-1), 2010..=2020);
+    let eyr_valid = matches!(document["eyr"].parse().unwrap_or(-1), 2020..=2030);
     let hgt_valid = validate_height(&document["hgt"]);
     let hcl_valid = HAIR_COLOR_REGEX.is_match(&document["hcl"]);
-    let ecl_valid = match document["ecl"].as_str() {
-        "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth" => true,
-        _ => false,
-    };
+    let ecl_valid = matches!(document["ecl"].as_str(), "amb" | "blu" | "brn" | "gry" | "grn" | "hzl" | "oth");
+    
     // Needs to be nine digits, and also actually be digits
     let pid_valid =
         document["pid"].len() == 9 && document["pid"].parse().map_or(false, |_: u32| true);
 
-    return existence
+    existence
         && byr_valid
         && iyr_valid
         && eyr_valid
         && hgt_valid
         && hcl_valid
         && ecl_valid
-        && pid_valid;
+        && pid_valid
 }
 
 fn validate_height(height_string: &str) -> bool {
@@ -123,14 +112,8 @@ fn validate_height(height_string: &str) -> bool {
         let height_unit = height_caps.get(2).unwrap().as_str();
         let height_val: u32 = height_caps.get(1).unwrap().as_str().parse().unwrap();
         match height_unit {
-            "cm" => match height_val {
-                150..=193 => true,
-                _ => false,
-            },
-            "in" => match height_val {
-                59..=76 => true,
-                _ => false,
-            },
+            "cm" => matches!(height_val, 150..=193),
+            "in" => matches!(height_val, 59..=76),
             _ => false,
         }
     } else {
