@@ -6,10 +6,10 @@ const PATH: &str = "C:/Users/mcali/Desktop/Repositories/advent_of_code_2020/day_
 const PATH2: &str = "C:/Users/mcali/Desktop/Repositories/advent_of_code_2020/day_19/input_pt2.txt";
 
 fn main() {
-    let (rules, strings) = parse_input(PATH);    
-    let part_one = matches_rule_zero(&rules, &strings); 
+    let (rules, strings) = parse_input(PATH);
+    let part_one = matches_rule_zero(&rules, &strings);
     println!("PART ONE: Matches: {}", part_one);
-    
+
     let (rules2, strings2) = parse_input(PATH2);
     let part_two = matches_rule_zero_loopily(&rules2, &strings2);
     println!("PART TWO: Matches: {}", part_two);
@@ -33,20 +33,20 @@ fn matches_rule_zero_loopily(rules: &HashMap<usize, Vec<Token>>, strings: &[Stri
     let rule_42 = rules.get(&42usize).unwrap();
     let rule_31 = rules.get(&31).unwrap();
 
-    let rule_42_string =  "(".to_owned() + &compile_rule(rules, &rule_42) + ")";    
-    let rule_31_string = "(".to_owned() + &compile_rule(rules, &rule_31) + ")";    
-    let rule_8_string = format!("{rule_42}+", rule_42 = rule_42_string);    
+    let rule_42_string = "(".to_owned() + &compile_rule(rules, &rule_42) + ")";
+    let rule_31_string = "(".to_owned() + &compile_rule(rules, &rule_31) + ")";
+    let rule_8_string = format!("{rule_42}+", rule_42 = rule_42_string);
     let mut rule_11_string = format!(
         r"({rule_42}{{}}{rule_31}|{rule_42}{rule_31})", // with a {} hole that acts as a stand in for rule 11. we'll inflate it in a moment
         rule_42 = rule_42_string,
         rule_31 = rule_31_string
     );
-    // Spend a couple of loops inflating rule 11 string to simulate recursiveness    
+    // Spend a couple of loops inflating rule 11 string to simulate recursiveness
     for _ in 0..2 {
         rule_11_string = rule_11_string.replace("{}", &rule_11_string);
     }
     rule_11_string = rule_11_string.replace("{}", ""); // remove the stand-in so we have a valid regex string
-    
+
     let rule_0_string = "(?m)^".to_owned() + &rule_8_string + &rule_11_string + "\\b";
     let rule_0_regex = Regex::new(&rule_0_string).unwrap();
 
