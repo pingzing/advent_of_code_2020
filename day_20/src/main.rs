@@ -37,8 +37,10 @@ fn main() {
     );
 
     let non_monster_water = part_two(&tiles);
-    println!("PART TWO: Non-monster filled cells count is: {}", non_monster_water);
-
+    println!(
+        "PART TWO: Non-monster filled cells count is: {}",
+        non_monster_water
+    );
 }
 
 fn get_corners(tiles: &[Tile]) -> Vec<u64> {
@@ -204,7 +206,7 @@ fn part_two(tiles: &[Tile]) -> u32 {
     let mut giant_tile = Tile {
         id: 0,
         contents: stitched_image,
-    };    
+    };
 
     let mut sea_monsters = HashSet::new();
     for _ in 0..4 {
@@ -220,7 +222,7 @@ fn part_two(tiles: &[Tile]) -> u32 {
         }
         giant_tile.flip_vertically();
     }
-    
+
     println!("Correctly-oriented giant tile:\n{}", giant_tile);
 
     // mark all the sea monsters for debugging and sanity-checking
@@ -228,10 +230,17 @@ fn part_two(tiles: &[Tile]) -> u32 {
         giant_tile.contents[(*row, *col)] = Cell::SeaMonster;
     }
 
-    println!("Correctly-oriented giant tile with MONSTERS!:\n{}", giant_tile);
-    
+    println!(
+        "Correctly-oriented giant tile with MONSTERS!:\n{}",
+        giant_tile
+    );
+
     // We've found our sea monsters! Count up our non-monster Filled cells
-    giant_tile.contents.elements_row_major_iter().filter(|x| **x == Cell::Filled).count() as u32    
+    giant_tile
+        .contents
+        .elements_row_major_iter()
+        .filter(|x| **x == Cell::Filled)
+        .count() as u32
 }
 
 fn find_sea_monsters(image: &Array2D<Cell>) -> HashSet<(usize, usize)> {
@@ -264,7 +273,10 @@ fn find_sea_monsters(image: &Array2D<Cell>) -> HashSet<(usize, usize)> {
                 //println!("Checking: {:?}", other_cells.iter());
 
                 // make sure none of the possible cells are already in our hashset
-                if candidate_cells.iter().any(|x| sea_monster_cells.contains(x)) {
+                if candidate_cells
+                    .iter()
+                    .any(|x| sea_monster_cells.contains(x))
+                {
                     continue;
                 }
                 // If not, we may have found a new monster. make sure that all the cells are filled
